@@ -1,0 +1,9 @@
+.render-wrapper {
+    display: inline-block;
+    width: auto;
+    height: auto;
+}
+
+.render-wrapper:hover {
+    border: 1px #1890ff solid;
+}
