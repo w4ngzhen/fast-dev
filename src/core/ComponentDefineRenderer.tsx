@@ -60,15 +60,17 @@ export default class ComponentDefineRenderer {
                 padding: '10px'
             };
             return (
-                <div
-                    key={currentKey}
+                <ContainerComponentRenderWrapper>
+                    <div
+                        key={currentKey}
 
-                    data-path={dataPath}
-                    data-virtual={dataVirtual}
+                        data-path={dataPath}
+                        data-virtual={dataVirtual}
 
-                    style={divStyle}>
-                    {childrenEle}
-                </div>
+                        style={divStyle}>
+                        {childrenEle}
+                    </div>
+                </ContainerComponentRenderWrapper>
             )
         }
 

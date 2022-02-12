@@ -1,11 +1,13 @@
 import {useState} from "react";
-import ComponentDefine from "../../../core/ComponentDefine";
-import ComponentDefineRenderer from "../../../core/ComponentDefineRenderer";
 import {useDrop} from "react-dnd";
+import BaseSchema from "../../../schema/BaseSchema";
+import {SchemaDesignBlockRenderer} from "../../render/SchemaDesignBlockRenderer";
 
 export function ElementCanvas() {
-    const [rootComponentDefine, setRootComponentDefine] =
-        useState<ComponentDefine>({
+    const [schemaDesignBlockRenderer] = useState(new SchemaDesignBlockRenderer());
+
+    const [rootBaseSchema, setRootBaseSchema] =
+        useState<BaseSchema>({
             type: 'page',
             name: 'Page',
             width: '100%',
@@ -37,11 +39,13 @@ export function ElementCanvas() {
             }]
         });
 
+    schemaDesignBlockRenderer.schema = rootBaseSchema;
+
     const [collectedProps, dropRef] = useDrop(() => ({
         accept: 'ComponentTagListItem',
         hover: (item, monitor) => {
             console.log(item);
-            console.log(monitor.isOver({ shallow: true }))
+            console.log(monitor.isOver({shallow: true}))
         },
         collect: monitor => ({
             isOver: monitor.isOver(),
@@ -54,7 +58,7 @@ export function ElementCanvas() {
 
     return (
         <div style={{width: '100%', height: '100%', ...style}} ref={dropRef}>
-            {ComponentDefineRenderer.renderDefine(rootComponentDefine)}
+            {schemaDesignBlockRenderer.renderDesignBlock()}
         </div>
     );
 }
