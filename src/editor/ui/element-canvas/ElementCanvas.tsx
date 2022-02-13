@@ -1,7 +1,8 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import {useDrop} from "react-dnd";
 import BaseSchema from "../../../schema/BaseSchema";
 import {SchemaDesignBlockRenderer} from "../../render/SchemaDesignBlockRenderer";
+import {Button} from "antd";
 
 export function ElementCanvas() {
     const [schemaDesignBlockRenderer] = useState(new SchemaDesignBlockRenderer());
@@ -12,27 +13,32 @@ export function ElementCanvas() {
             name: 'Page',
             width: '100%',
             height: '100%',
+            isContainer: true,
             children: [{
                 type: 'panel',
                 name: 'Panel',
                 width: '',
                 height: '',
+                isContainer: true,
                 children: [{
                     type: 'button',
                     name: 'Button',
                     width: '100%',
                     height: '100%',
+                    isContainer: false,
                 }, {
                     type: 'panel',
                     name: 'Panel',
                     width: '300px',
                     height: '150px',
+                    isContainer: true,
                     children: [
                         {
                             type: 'button',
                             name: 'Button',
                             width: '100%',
                             height: '100%',
+                            isContainer: false,
                         }
                     ]
                 }]

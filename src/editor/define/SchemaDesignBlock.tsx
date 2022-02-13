@@ -9,6 +9,7 @@ export interface SchemaDesignBlock {
     height?: string;
     isSelected?: boolean;
     isCanvasPreview?: boolean;
+    isContainer?: boolean;
     children?: SchemaDesignBlock[] | undefined;
     component: (blockInfo: SchemaDesignBlock) => JSX.Element;
 }
@@ -40,7 +41,7 @@ const COMPONENTS: Record<string, (blockInfo: SchemaDesignBlock) => JSX.Element> 
             style.outline = '1px solid #5aa7dc'
         }
 
-        return <Button style={style}>Button</Button>
+        return <Button style={style} type='primary'>Button</Button>
     },
     'panel': blockInfo => {
 
@@ -48,7 +49,9 @@ const COMPONENTS: Record<string, (blockInfo: SchemaDesignBlock) => JSX.Element> 
             width: blockInfo.width,
             height: blockInfo.height,
             minWidth: '100px',
-            minHeight: '100px'
+            minHeight: '100px',
+            padding: '5px',
+            border: '1px black solid'
         }
 
         if (blockInfo.isSelected) {
@@ -98,8 +101,8 @@ export function convert(schema?: BaseSchema)
         name: schema.name,
         width: schema.width,
         height: schema.height,
+        isContainer: schema.isContainer,
         children: convertedChildren,
-
         component: (blockInfo) => componentFunc(blockInfo),
     };
 

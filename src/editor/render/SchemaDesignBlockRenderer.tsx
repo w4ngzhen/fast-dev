@@ -41,28 +41,29 @@ export class SchemaDesignBlockRenderer {
         }
 
         const children = block.children;
-        const wrapperChildren = [];
-        if (children && children.length > 0) {
-            wrapperChildren.push(children.map((child, idx) => {
+        let blockComp;
+        if (!block.isContainer || !children || children.length === 0) {
+            blockComp = block.component(block);
+        } else {
+            const wrapperChildren = children.map((child, idx) => {
                 const childPath = path + '/' + child.type + '_' + idx;
                 return SchemaDesignBlockRenderer.renderBlockInner(child, childPath);
-            }));
+            });
+            blockComp = React.cloneElement(block.component(block), {}, wrapperChildren);
         }
+
         return (
-            // <div className={'wrapper-block'}
-            //      key={path}
-            //      data-path={path}
-            //      data-for={block.type}
-            // >
-            //     {React.cloneElement(block.component(block), {
-            //         'data-type': block.type
-            //         // style: {
-            //         //     width: block.width,
-            //         //     height: block.height,
-            //         // }
-            //     }, wrapperChildren)}
-            // </div>
-            block.component(block)
+            <div className={'wrapper-block'}
+                 key={path}
+                 data-path={path}
+                 data-for={block.type}
+                 style={{
+                     width: block.width,
+                     height: block.height
+                 }}
+            >
+                {blockComp}
+            </div>
         );
     }
 
