@@ -1,32 +1,33 @@
 import ComponentDefine from "../core/ComponentDefine";
+import {ElementNode} from "../core/ElementNode";
 
 export default class DataUtils {
 
     /**
-     * 获取 rootComponentDefine 中的符合pathNodes路径的所有后代元素
+     * 获取 rootSchema 中的符合pathNodes路径的所有后代元素
      * 举例：
      * root有子元素：aa和bb；aa有子元素aaa
      * => {type:'root', children: [{type: 'aa', children: [{type: 'aaa'}]}, {type: 'bb'}] }
      * 若 pathNodes = ['aa_0', 'aaa_0']，则能得到aa和aaa元素组成的列表
      * 若 pathNodes = ['aa_0', 'aaa_1']，则在严格模式下，返回 []，在非严格模式下返回 只有aa元素的列表
      *
-     * @param rootComponentDefine
+     * @param rootSchema
      * @param pathNodes
      * @param strict
      */
-    static getDescendantComponentDefineListByPathNodes(
-        rootComponentDefine: ComponentDefine,
+    static getDescendantSchemaNodeListByPathNodes(
+        rootSchema: ElementNode,
         pathNodes: string[],
         strict: boolean) {
-        let foundList: ComponentDefine[] = [];
-        if (!rootComponentDefine) {
+        let foundList: ElementNode[] = [];
+        if (!rootSchema) {
             return foundList;
         }
         if (!pathNodes || pathNodes.length === 0) {
             return [];
         }
 
-        let componentDef = rootComponentDefine;
+        let schemaNode = rootSchema;
 
         for (let idx = 0; idx < pathNodes.length; idx++) {
             let pathNodeName = pathNodes[idx];
@@ -43,23 +44,23 @@ export default class DataUtils {
                 break;
             }
 
-            let {children} = componentDef || {};
+            let {children} = schemaNode || {};
             if (!children || children.length === 0) {
                 // 当前节点ComponentDefine已经不存在子元素
                 break;
             }
 
-            let childComponentDef = children[childIdx];
-            if (!childComponentDef || childComponentDef.type !== type) {
+            let childNode = children[childIdx];
+            if (!childNode || childNode.type !== type) {
                 // 对应位置不存在或类型不匹配
                 break;
             }
 
             // 匹配的情况下，保存
-            foundList.push(childComponentDef);
+            foundList.push(childNode);
             // 将该子元素替换现在的componentDef，并进入下一次循环
             // 以处理该子元素的子元素
-            componentDef = childComponentDef;
+            schemaNode = childNode;
 
         }
 

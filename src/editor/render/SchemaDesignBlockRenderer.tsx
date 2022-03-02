@@ -1,8 +1,7 @@
 import BaseSchema from "../../schema/BaseSchema";
 import {convert, SchemaDesignBlock} from "../define/SchemaDesignBlock";
-import React, {ReactElement, ReactNode} from "react";
-import {Button} from "antd";
-import {ContainerComponentRenderWrapper} from "./ContainerComponentRenderWrapper";
+import React, {ReactNode} from "react";
+import './index.css';
 
 export class SchemaDesignBlockRenderer {
 
@@ -51,9 +50,23 @@ export class SchemaDesignBlockRenderer {
             });
             blockComp = React.cloneElement(block.component(block), {}, wrapperChildren);
         }
+        const onMouseMove = (e:  React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+            const e1 = e.target;
+            const e2 = e.currentTarget;
+            console.log(e1);
+            // console.log(e2);
+
+            // console.log(htmlEle as HTMLElement);
+            // const path = (htmlEle as HTMLDivElement)?.getAttribute('data-path');
+            // if (!path) {
+            //     return;
+            // }
+            // console.log(path);
+        }
 
         return (
-            <div className={'wrapper-block'}
+            <div className={'render-wrapper-block'}
+                 onMouseMove={onMouseMove}
                  key={path}
                  data-path={path}
                  data-for={block.type}

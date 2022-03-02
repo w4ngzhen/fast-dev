@@ -1,6 +1,5 @@
-import {Button, Input} from "antd";
 import BaseSchema from "../../schema/BaseSchema";
-import {CSSProperties} from "react";
+import {MAPPER_RECORDS} from "../mapper/BaseMapper";
 
 export interface SchemaDesignBlock {
     type: string;
@@ -14,67 +13,6 @@ export interface SchemaDesignBlock {
     component: (blockInfo: SchemaDesignBlock) => JSX.Element;
 }
 
-
-const COMPONENTS: Record<string, (blockInfo: SchemaDesignBlock) => JSX.Element> = {
-
-    'page': blockInfo => {
-
-        let style: CSSProperties = {
-            width: '100%',
-            height: '100%',
-            padding: '10px'
-        }
-
-        if (blockInfo.isSelected) {
-            style.outline = '1px solid #5aa7dc'
-        }
-
-        return <div style={style}/>
-    },
-    'button': blockInfo => {
-        const style: CSSProperties = {
-            width: blockInfo.width,
-            height: blockInfo.height,
-        }
-
-        if (blockInfo.isSelected) {
-            style.outline = '1px solid #5aa7dc'
-        }
-
-        return <Button style={style} type='primary'>Button</Button>
-    },
-    'panel': blockInfo => {
-
-        const style: CSSProperties = {
-            width: blockInfo.width,
-            height: blockInfo.height,
-            minWidth: '100px',
-            minHeight: '100px',
-            padding: '5px',
-            border: '1px black solid'
-        }
-
-        if (blockInfo.isSelected) {
-            style.outline = '1px solid #5aa7dc'
-        }
-
-        return <div style={style}/>
-    },
-    'input': blockInfo => {
-
-        const style: CSSProperties = {
-            width: blockInfo.width,
-            height: blockInfo.height,
-        }
-
-        if (blockInfo.isSelected) {
-            style.outline = '1px solid #5aa7dc'
-        }
-
-        return <Input style={style}/>
-    }
-}
-
 export function convert(schema?: BaseSchema)
     : SchemaDesignBlock | undefined {
 
@@ -82,8 +20,9 @@ export function convert(schema?: BaseSchema)
         return undefined;
     }
 
-    const componentFunc = COMPONENTS[schema.type];
-    if (!componentFunc) {
+    const mapper = MAPPER_RECORDS[schema.type];
+    if (!mapper) {
+        console.warn(`type '${schema.type}' not found`);
         return undefined;
     }
 
@@ -103,7 +42,7 @@ export function convert(schema?: BaseSchema)
         height: schema.height,
         isContainer: schema.isContainer,
         children: convertedChildren,
-        component: (blockInfo) => componentFunc(blockInfo),
+        component: (blockInfo) => mapper.mapComponent(blockInfo),
     };
 
 }
