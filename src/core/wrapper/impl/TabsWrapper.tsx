@@ -1,20 +1,22 @@
 import {Tabs} from "antd";
-import React from "react";
-import { WrapperProps } from "../WrapperProps";
+import React, {ReactNode} from "react";
+import {BaseWrapper} from "../BaseWrapper";
+import {WrapperProps} from "../WrapperProps";
 
-export class TabsWrapper extends React.Component<WrapperProps, any> {
+export class TabsWrapper implements BaseWrapper {
 
-    constructor(props: WrapperProps, context: any) {
-        super(props, context);
-    }
-
-    render(): JSX.Element {
-        const {ui = {}} = this.props.elementNodeInfo;
+    render(wrapperProps: WrapperProps,
+           children?: ReactNode[]): JSX.Element {
+        const {path, elementNodeInfo} = wrapperProps;
+        const {ui = {}} = elementNodeInfo;
         const {activeTabKey} = ui;
         return (
             <Tabs
+                key={path}
                 defaultActiveKey={activeTabKey as string}
-            />
+            >
+                {children}
+            </Tabs>
         );
     }
 

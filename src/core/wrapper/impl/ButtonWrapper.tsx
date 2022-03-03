@@ -1,21 +1,21 @@
-import React, {CSSProperties} from "react";
+import React, {CSSProperties, ReactNode} from "react";
 import _ from "lodash";
 import {EventManager} from "../../event/EventManager";
 import {Button} from "antd";
+import {BaseWrapper} from "../BaseWrapper";
 import {WrapperProps} from "../WrapperProps";
+import {ElementNode} from "../../ElementNode";
 
-export class ButtonWrapper extends React.Component<WrapperProps, any> {
+export class ButtonWrapper implements BaseWrapper {
 
-    constructor(props: WrapperProps, context: any) {
-        super(props, context);
-    }
-
-    render() {
-        const {elementNodeInfo, path} = this.props;
+    render(wrapperProps: WrapperProps,
+           children?: ReactNode[]): JSX.Element {
+        const {elementNodeInfo, path} = wrapperProps;
         const {ui = {}, event = {}} = elementNodeInfo;
+        const {width, height} = ui;
         const style: CSSProperties = {
-            width: ui.width,
-            height: ui.height,
+            width,
+            height
         }
 
         const {onClick} = event;
@@ -26,10 +26,10 @@ export class ButtonWrapper extends React.Component<WrapperProps, any> {
                 EventManager.Instance.fire(path, 'onClick');
             }
         } else {
-            onClickFunc = () => {
-            };
+            EventManager.Instance.unRegister(path, 'onClick');
+            onClickFunc = () => {};
         }
-        const {text} = ui;
+        const {text = 'button'} = ui;
         return (
             <Button
                 key={path}
@@ -39,5 +39,20 @@ export class ButtonWrapper extends React.Component<WrapperProps, any> {
                 {text}
             </Button>
         )
+    }
+}
+
+export interface ButtonElementNode extends Omit<ElementNode, 'children'> {
+    type: 'button';
+    ui: {
+        size: {
+            width: string;
+            height: string;
+        }
+        icon: string;
+        text: string;
+    };
+    event: {
+        onClick: string;
     }
 }

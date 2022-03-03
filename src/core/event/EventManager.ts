@@ -17,6 +17,11 @@ export class EventManager {
         this.eventRecord[key] = eventScript;
     }
 
+    unRegister(path: string, eventName: string ) {
+        const key = path + '@' + eventName;
+        delete this.eventRecord[key];
+    }
+
     fire(path: string, eventName: string, ...args: any[]): void {
         const key = path + '@' + eventName;
         const trigger = this.eventRecord[key];
@@ -24,7 +29,7 @@ export class EventManager {
             console.warn(`找不到对应key = '${key}' 的事件记录`);
         }
         if (typeof trigger === 'string') {
-            new Function('path', 'eventName', 'console.log(eventName, path)').call(window, path, eventName);
+            new Function('path', 'eventName', trigger).call(window, path, eventName);
         }
     }
 }

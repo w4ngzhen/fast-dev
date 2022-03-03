@@ -1,20 +1,18 @@
 import {Table} from "antd";
-import React from "react";
-import { WrapperProps } from "../WrapperProps";
+import React, {ReactNode} from "react";
+import {BaseWrapper} from "../BaseWrapper";
+import {WrapperProps} from "../WrapperProps";
 
-export class TableColumnWrapper extends React.Component<WrapperProps, any> {
+export class TableColumnWrapper implements BaseWrapper {
 
-    constructor(props: WrapperProps, context: any) {
-        super(props, context);
-    }
-
-    render(): JSX.Element {
-        const {elementNodeInfo, path} = this.props;
+    render(wrapperProps: WrapperProps,
+           children?: ReactNode[]): JSX.Element {
+        const {path, elementNodeInfo} = wrapperProps;
         const {dataIndex, ui = {}} = elementNodeInfo;
         const {title = ''} = ui;
         return (
             <Table.Column
-                key={path}
+                key={dataIndex}
                 title={title}
                 dataIndex={dataIndex}
             />

@@ -1,16 +1,15 @@
-import React, {ChangeEventHandler} from "react";
+import React, {ChangeEventHandler, ReactNode} from "react";
 import {Input} from "antd";
 import {createInputValueChange} from "../../event/InputChangeEvent";
+import {BaseWrapper} from "../BaseWrapper";
 import {WrapperProps} from "../WrapperProps";
+import {ElementNode} from "../../ElementNode";
 
-export class InputWrapper extends React.Component<WrapperProps, any> {
+export class InputWrapper implements BaseWrapper {
 
-    constructor(props: WrapperProps) {
-        super(props);
-    }
-
-    render(): JSX.Element {
-        const {elementNodeInfo, path} = this.props;
+    render(wrapperProps: WrapperProps,
+           children?: ReactNode[]): JSX.Element {
+        const {elementNodeInfo, path} = wrapperProps;
         const {ui = {}} = elementNodeInfo;
         const value = ui.value || '';
         const innerOnChange: ChangeEventHandler<HTMLInputElement> =
@@ -28,5 +27,21 @@ export class InputWrapper extends React.Component<WrapperProps, any> {
                 onChange={innerOnChange}
             />
         )
+    }
+}
+
+export interface InputElementNode extends Omit<ElementNode, 'children'> {
+    type: 'input';
+    ui: {
+        size: {
+            width: string;
+            height: string;
+        } | string
+        placeholder: string;
+        prefixIcon: string;
+        postfixIcon: string;
+    };
+    event: {
+        onChange: string;
     }
 }
