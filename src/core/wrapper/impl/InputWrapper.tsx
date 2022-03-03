@@ -1,14 +1,17 @@
-import {ChangeEventHandler} from "react";
+import React, {ChangeEventHandler} from "react";
 import {Input} from "antd";
-import {BaseElementNodeRenderer} from "../BaseElementNodeRenderer";
-import {ElementNode} from "../../ElementNode";
 import {createInputValueChange} from "../../event/InputChangeEvent";
+import {WrapperProps} from "../WrapperProps";
 
-export class InputRenderer implements BaseElementNodeRenderer {
-    type: string = 'input';
+export class InputWrapper extends React.Component<WrapperProps, any> {
 
-    render(schema: ElementNode, path: string): JSX.Element {
-        const {ui = {}} = schema;
+    constructor(props: WrapperProps) {
+        super(props);
+    }
+
+    render(): JSX.Element {
+        const {elementNodeInfo, path} = this.props;
+        const {ui = {}} = elementNodeInfo;
         const value = ui.value || '';
         const innerOnChange: ChangeEventHandler<HTMLInputElement> =
             (e) => {

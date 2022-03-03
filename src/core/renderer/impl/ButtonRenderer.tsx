@@ -24,8 +24,18 @@ export class ButtonRenderer implements BaseElementNodeRenderer {
                 EventManager.Instance.fire(path, 'onClick');
             }
         } else {
-            onClickFunc = () => {};
+            onClickFunc = () => {
+            };
         }
-        return <Button style={style} type='primary' onClick={onClickFunc}>Button</Button>
+        const {text} = ui;
+        return (
+            <Button
+                key={path}
+                style={style}
+                type='primary'
+                onClick={onClickFunc}>
+                {text}
+            </Button>
+        )
     }
 }

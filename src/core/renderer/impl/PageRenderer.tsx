@@ -12,7 +12,12 @@ export class PageRenderer implements BaseElementNodeRenderer {
             height: '100%',
             padding: '10px'
         }
-        return <div style={style}/>
+        return (
+            <div
+                key={path}
+                style={style}
+            />
+        )
     }
 
 }

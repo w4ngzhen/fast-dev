@@ -7,7 +7,7 @@ export interface ElementNode {
      * Element 对应的UI属性
      */
     ui?: {
-        [uiProp: string]: string
+        [uiProp: string]: string | number
     };
     /**
      * Element 对应的事件属性
@@ -29,5 +29,5 @@ export interface ElementNode {
 /**
  * 定义属于容器的元素
  */
-const CONTAINERS = ['page', 'panel']
+const CONTAINERS = ['page', 'panel', 'tabs', 'tabPane', 'table']
 export {CONTAINERS}
