@@ -1,6 +1,6 @@
 import React, {ChangeEventHandler, ReactNode} from "react";
 import {Input} from "antd";
-import {createInputValueChange} from "../../event/InputChangeEvent";
+import {createInputValueChangeEvent} from "../../event/InputChangeEvent";
 import {BaseWrapper} from "../BaseWrapper";
 import {WrapperProps} from "../WrapperProps";
 import {ElementNode} from "../../ElementNode";
@@ -16,7 +16,7 @@ export class InputWrapper implements BaseWrapper {
             (e) => {
                 e.stopPropagation(); // 阻止数据变更，使用上层数据
                 const value = e.target.value;
-                const event = createInputValueChange(path, value);
+                const event = createInputValueChangeEvent(path, value);
                 window.dispatchEvent(event);
             };
         return (

@@ -1,7 +1,8 @@
 import {Tabs} from "antd";
-import React, {ReactNode} from "react";
+import React, {ChangeEventHandler, ReactNode} from "react";
 import {BaseWrapper} from "../BaseWrapper";
 import {WrapperProps} from "../WrapperProps";
+import {createInputValueChangeEvent, createTabsKeyChangeEvent} from "../../event/InputChangeEvent";
 
 export class TabsWrapper implements BaseWrapper {
 
@@ -13,7 +14,11 @@ export class TabsWrapper implements BaseWrapper {
         return (
             <Tabs
                 key={path}
-                defaultActiveKey={activeTabKey as string}
+                activeKey={activeTabKey as string}
+                onTabClick={(tabKey, e) => {
+                    const event = createTabsKeyChangeEvent(path, tabKey);
+                    window.dispatchEvent(event);
+                }}
             >
                 {children}
             </Tabs>

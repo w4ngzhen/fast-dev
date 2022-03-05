@@ -1,6 +1,6 @@
 import React, {CSSProperties, ReactNode} from "react";
 import _ from "lodash";
-import {EventManager} from "../../event/EventManager";
+import {EventManager} from "../../manager/EventManager";
 import {Button} from "antd";
 import {BaseWrapper} from "../BaseWrapper";
 import {WrapperProps} from "../WrapperProps";
@@ -10,7 +10,7 @@ export class ButtonWrapper implements BaseWrapper {
 
     render(wrapperProps: WrapperProps,
            children?: ReactNode[]): JSX.Element {
-        const {elementNodeInfo, path} = wrapperProps;
+        const {elementNodeInfo, path, managers: {eventManager}} = wrapperProps;
         const {ui = {}, event = {}} = elementNodeInfo;
         const {width, height} = ui;
         const style: CSSProperties = {
@@ -21,13 +21,14 @@ export class ButtonWrapper implements BaseWrapper {
         const {onClick} = event;
         let onClickFunc;
         if (!_.isEmpty(onClick)) {
-            EventManager.Instance.register(path, 'onClick', onClick);
+            eventManager.register(path, 'onClick', onClick);
             onClickFunc = () => {
-                EventManager.Instance.fire(path, 'onClick');
+                eventManager.fire(path, 'onClick');
             }
         } else {
-            EventManager.Instance.unRegister(path, 'onClick');
-            onClickFunc = () => {};
+            eventManager.unRegister(path, 'onClick');
+            onClickFunc = () => {
+            };
         }
         const {text = 'button'} = ui;
         return (

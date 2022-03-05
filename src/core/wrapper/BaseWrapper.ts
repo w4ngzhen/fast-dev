@@ -8,11 +8,12 @@ import {TableColumnWrapper} from "./impl/TableColumnWrapper";
 import {TabsWrapper} from "./impl/TabsWrapper";
 import {TabPaneWrapper} from "./impl/TabPaneWrapper";
 import {WrapperProps} from "./WrapperProps";
+import {Managers} from "../manager/Managers";
 
 export interface BaseWrapper {
     render(
         wrapperProps: WrapperProps,
-        childrenReactNode?: ReactNode
+        childrenReactNode?: ReactNode,
     ): JSX.Element;
 }
 

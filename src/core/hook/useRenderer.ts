@@ -1,33 +1,55 @@
-import {useEffect, useState} from "react";
+import {useEffect, useState, createContext} from "react";
 import {ElementNode} from "../ElementNode";
-import _ from "lodash";
-import DataUtils from "../../utils/DataUtils";
-import {INPUT_VALUE_CHANGE_EVENT, InputValueChangeEvent} from "../event/InputChangeEvent";
+import {
+    INPUT_VALUE_CHANGE_EVENT,
+    InputValueChangeEvent,
+    TABS_KEY_CHANGE_EVENT,
+    TabsKeyChangeEvent
+} from "../event/InputChangeEvent";
 import {WrapperRenderer} from "../wrapper/WrapperRenderer";
-import {ElementNodeManager} from "../ElementNodeManager";
+import {ElementNodeManager} from "../manager/ElementNodeManager";
+import {EventManager} from "../manager/EventManager";
 
 export function useRenderer(initElementNode: ElementNode) {
+    const [elementNodeManager] = useState(new ElementNodeManager());
+    const [eventManager] = useState(new EventManager());
+
     const [wrapperRenderer] = useState(new WrapperRenderer());
-    const [elementNode, setElementNode] = useState<ElementNode>(initElementNode);
-    ElementNodeManager.init((node) => {
-        setElementNode(node);
-    })
+
+    // manager init and mount to window
     useEffect(() => {
+        // init
+        elementNodeManager.init(initElementNode);
+
+        // mount to window
+        (window as any)['$elementNodeManager$'] = elementNodeManager;
+        (window as any)['$eventManager$'] = eventManager;
+    }, []);
+
+    // inner event listener
+    useEffect(() => {
+
         const onInputValueChange = function (e: Event) {
             const ce = e as InputValueChangeEvent;
-            const path = ce.detail.path || '';
-            const value = ce.detail.value || '';
-            const clonedEleNode = _.cloneDeep(elementNode);
-            const targetEleNode = DataUtils.getElementNodeByPath(clonedEleNode, path);
-            _.set(targetEleNode, 'ui.value', value);
-
-            setElementNode(clonedEleNode);
+            const {detail: {path = '', value = ''}} = ce;
+            elementNodeManager.update(path, {ui: {value: value}});
         }
+
+        const onTabsKeyChange = (e: Event) => {
+            const ce = e as TabsKeyChangeEvent;
+            const {detail: {path = '', tabKey = ''}} = ce;
+            elementNodeManager.update(path, {ui: {activeTabKey: tabKey}});
+        }
+
         window.addEventListener(INPUT_VALUE_CHANGE_EVENT, onInputValueChange)
+        window.addEventListener(TABS_KEY_CHANGE_EVENT, onTabsKeyChange)
         return () => {
+            window.removeEventListener(TABS_KEY_CHANGE_EVENT, onTabsKeyChange)
             window.removeEventListener(INPUT_VALUE_CHANGE_EVENT, onInputValueChange)
         };
     })
-    const rootComp = wrapperRenderer.renderElementNode(elementNode, '/' + elementNode.type);
-    return rootComp;
+    return wrapperRenderer.renderRootElementNode(
+        elementNodeManager.currentElementNode,
+        {eventManager, elementNodeManager}
+    );
 }

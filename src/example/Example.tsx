@@ -1,7 +1,8 @@
 import {useRenderer} from "../core/hook/useRenderer";
 import React from "react";
+import {observer} from "mobx-react-lite";
 
-export function Example() {
+export const Example = observer(() => {
     const rootComp = useRenderer({
         type: 'page',
         children: [{
@@ -68,4 +69,4 @@ export function Example() {
         }]
     });
     return rootComp || <></>;
-}
+});

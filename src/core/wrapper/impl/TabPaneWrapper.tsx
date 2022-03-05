@@ -12,7 +12,7 @@ export class TabPaneWrapper implements BaseWrapper {
         const {tabKey, tabName} = ui;
         return (
             <Tabs.TabPane
-                key={path}
+                key={tabKey}
                 tabKey={tabKey}
                 tab={tabName}
             >
