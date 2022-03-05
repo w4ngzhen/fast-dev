@@ -1,4 +1,4 @@
-import React, {ChangeEventHandler, ReactNode} from "react";
+import React, {ChangeEventHandler, FormEventHandler, ReactNode} from "react";
 import {Input} from "antd";
 import {createInputValueChangeEvent} from "../../event/InputChangeEvent";
 import {BaseWrapper} from "../BaseWrapper";
@@ -11,11 +11,11 @@ export class InputWrapper implements BaseWrapper {
            children?: ReactNode[]): JSX.Element {
         const {elementNodeInfo, path} = wrapperProps;
         const {ui = {}} = elementNodeInfo;
-        const value = ui.value || '';
-        const innerOnChange: ChangeEventHandler<HTMLInputElement> =
+        const {value, tabIndex} = ui;
+        const innerOnInput: FormEventHandler<HTMLInputElement> =
             (e) => {
                 e.stopPropagation(); // 阻止数据变更，使用上层数据
-                const value = e.target.value;
+                const value = e.currentTarget.value;
                 const event = createInputValueChangeEvent(path, value);
                 window.dispatchEvent(event);
             };
@@ -24,7 +24,8 @@ export class InputWrapper implements BaseWrapper {
                 key={path}
                 style={{}}
                 value={value}
-                onChange={innerOnChange}
+                tabIndex={tabIndex}
+                onInput={innerOnInput}
             />
         )
     }

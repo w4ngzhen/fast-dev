@@ -10,21 +10,30 @@ export const Example = observer(() => {
             children: [
                 {
                     type: 'button',
+                    ui: {
+                        tabIndex: 1
+                    },
                 },
                 {
                     type: 'panel',
+                    ui: {
+                        tabIndex: 3
+                    },
                     children: [
                         {
                             type: 'button',
                             event: {
-                                onClick: 'console.log()'
+                                onClick: 'console.log(managers)'
                             }
                         }
                     ]
                 },
-                {type: 'panel', children: [{type: 'input', value: ''}]},
+                {type: 'panel', children: [{type: 'input', ui: {tabIndex: 2}, value: ''}]},
                 {
                     type: 'panel',
+                    ui: {
+                        tabIndex: 1
+                    },
                     children: [{
                         type: 'tabs',
                         ui: {
@@ -34,7 +43,8 @@ export const Example = observer(() => {
                             [
                                 {
                                     type: 'tabPane', ui: {tabKey: 'tab1', tabName: 'TabOne'}, children: [{
-                                        type: 'input'
+                                        type: 'input',
+                                        ui: {tabIndex: 1},
                                     }]
                                 },
                                 {type: 'tabPane', ui: {tabKey: 'tab2', tabName: 'TabTwo'}}
@@ -45,8 +55,8 @@ export const Example = observer(() => {
                     type: 'table',
                     ui: {},
                     dataSource: [
-                        {name: 'wz', age: 26},
-                        {name: 'zw', age: 63}
+                        {key: '1', name: 'wz', age: 26},
+                        {key: '2', name: 'zw', age: 63}
                     ],
                     children: [
                         {

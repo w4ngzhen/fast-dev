@@ -6,7 +6,9 @@ export class PanelWrapper implements BaseWrapper {
 
     render(wrapperProps: WrapperProps,
            children?: ReactNode[]): JSX.Element {
-        const {path} = wrapperProps;
+        const {path, elementNodeInfo = {}} = wrapperProps;
+        const {ui = {}} = elementNodeInfo;
+        const {tabIndex} = ui;
         const style: CSSProperties = {
             padding: '10px',
             minWidth: '100px',
@@ -15,6 +17,7 @@ export class PanelWrapper implements BaseWrapper {
         }
         return (
             <div
+                tabIndex={tabIndex}
                 key={path}
                 style={style}>
                 {children}

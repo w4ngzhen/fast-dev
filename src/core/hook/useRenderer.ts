@@ -12,7 +12,7 @@ import {EventManager} from "../manager/EventManager";
 
 export function useRenderer(initElementNode: ElementNode) {
     const [elementNodeManager] = useState(new ElementNodeManager());
-    const [eventManager] = useState(new EventManager());
+    const [eventManager] = useState(new EventManager(elementNodeManager));
 
     const [wrapperRenderer] = useState(new WrapperRenderer());
 

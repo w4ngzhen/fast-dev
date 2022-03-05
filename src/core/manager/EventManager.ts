@@ -1,10 +1,15 @@
+import {ElementNodeManager} from "./ElementNodeManager";
+
 export class EventManager {
 
     // static Instance: EventManager = new EventManager();
 
     private readonly eventHandlerRecord: Record<string, any>;
 
-    constructor() {
+    private readonly elementNodeManager: ElementNodeManager;
+
+    constructor(elementNodeManager: ElementNodeManager) {
+        this.elementNodeManager = elementNodeManager;
         this.eventHandlerRecord = {};
     }
 
@@ -26,12 +31,12 @@ export class EventManager {
             return;
         }
         if (typeof handler === 'string') {
-            // 方法签名：(path, eventName, context) => {...}
-            const context = {
+            // 方法签名：(path, eventName, managers) => {...}
+            const managers = {
                 eventManager: this,
-                // elementNodeManager:
+                elementNodeManager: this.elementNodeManager
             };
-            new Function('path', 'eventName', 'context', handler).call(window, path, eventName);
+            new Function('path', 'eventName', 'managers', handler).call(window, path, eventName, managers);
         }
     }
 }
