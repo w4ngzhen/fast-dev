@@ -7,9 +7,8 @@ export class TabPaneWrapper implements BaseWrapper {
 
     render(wrapperProps: WrapperProps,
            children?: ReactNode[]): JSX.Element {
-        const {elementNodeInfo, path} = wrapperProps;
-        const {ui = {}} = elementNodeInfo;
-        const {tabKey, tabName} = ui;
+        const {elementNodeInfo} = wrapperProps;
+        const {tabKey, tabName} = elementNodeInfo;
         return (
             <Tabs.TabPane
                 key={tabKey}

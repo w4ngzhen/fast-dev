@@ -1,16 +1,15 @@
 import {Tabs} from "antd";
-import React, {ChangeEventHandler, ReactNode} from "react";
+import React, {ReactNode} from "react";
 import {BaseWrapper} from "../BaseWrapper";
 import {WrapperProps} from "../WrapperProps";
-import {createInputValueChangeEvent, createTabsKeyChangeEvent} from "../../event/InputChangeEvent";
+import {createTabsKeyChangeEvent} from "../../event/inner/InnerEvent";
 
 export class TabsWrapper implements BaseWrapper {
 
     render(wrapperProps: WrapperProps,
            children?: ReactNode[]): JSX.Element {
         const {path, elementNodeInfo} = wrapperProps;
-        const {ui = {}} = elementNodeInfo;
-        const {activeTabKey} = ui;
+        const {activeTabKey} = elementNodeInfo;
         return (
             <Tabs
                 key={path}

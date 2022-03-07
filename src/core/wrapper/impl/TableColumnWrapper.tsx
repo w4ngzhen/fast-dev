@@ -7,9 +7,8 @@ export class TableColumnWrapper implements BaseWrapper {
 
     render(wrapperProps: WrapperProps,
            children?: ReactNode[]): JSX.Element {
-        const {path, elementNodeInfo} = wrapperProps;
-        const {dataIndex, ui = {}} = elementNodeInfo;
-        const {title = ''} = ui;
+        const {elementNodeInfo} = wrapperProps;
+        const {dataIndex, title = ''} = elementNodeInfo;
         return (
             <Table.Column
                 key={dataIndex}

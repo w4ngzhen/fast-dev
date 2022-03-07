@@ -11,12 +11,7 @@ export class ButtonWrapper implements BaseWrapper {
     render(wrapperProps: WrapperProps,
            children?: ReactNode[]): JSX.Element {
         const {elementNodeInfo, path, managers: {eventManager}} = wrapperProps;
-        const {ui = {}, event = {}} = elementNodeInfo;
-        const {width, height, tableIndex} = ui;
-        const style: CSSProperties = {
-            width,
-            height
-        }
+        const {text = 'button', tableIndex, event = {}} = elementNodeInfo;
 
         const {onClick} = event;
         let onClickFunc;
@@ -30,12 +25,10 @@ export class ButtonWrapper implements BaseWrapper {
             onClickFunc = () => {
             };
         }
-        const {text = 'button'} = ui;
         return (
             <Button
                 tabIndex={tableIndex}
                 key={path}
-                style={style}
                 type='primary'
                 onClickCapture={onClickFunc}>
                 {text}

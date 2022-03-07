@@ -1,4 +1,6 @@
 import {ElementNodeManager} from "./ElementNodeManager";
+import {ElementNode} from "../ElementNode";
+import _ from "lodash";
 
 export class EventManager {
 
@@ -31,12 +33,28 @@ export class EventManager {
             return;
         }
         if (typeof handler === 'string') {
-            // 方法签名：(path, eventName, managers) => {...}
-            const managers = {
-                eventManager: this,
-                elementNodeManager: this.elementNodeManager
+            const handlerScripts = handler;
+
+            const that = this;
+            const eventManagerWrapper = {
+                fire: (path: string, eventName: string, ...args: any[]) => {
+                    that.fire(path, eventName, args);
+                }
             };
-            new Function('path', 'eventName', 'managers', handler).call(window, path, eventName, managers);
+            const elementNodeManagerWrapper = {
+                update: (path: string, patch: any): void => {
+                    that.elementNodeManager.update(path, patch);
+                },
+                getCurrentElementNode: (): ElementNode | undefined => {
+                    return _.cloneDeep(that.elementNodeManager.currentElementNode);
+                }
+            }
+            // 方法签名：(path, eventName, managers) => {...}
+            const context = {
+                eventManagerWrapper,
+                elementNodeManagerWrapper
+            };
+            new Function('path', 'eventName', 'context', handlerScripts).call(window, path, eventName, context);
         }
     }
 }

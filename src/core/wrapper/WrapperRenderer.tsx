@@ -1,4 +1,4 @@
-import {CONTAINERS, ElementNode} from "../ElementNode";
+import {ElementNode} from "../ElementNode";
 import _ from "lodash";
 import React from "react";
 import {TYPE_WRAPPER} from "./BaseWrapper";
@@ -25,7 +25,7 @@ export class WrapperRenderer {
         }
         const children = eleNode.children || [];
         let comp;
-        if (!CONTAINERS.includes(eleNode.type) || _.isEmpty(children)) {
+        if (_.isEmpty(children)) {
             comp = typeWrapper.render({path: path, elementNodeInfo: eleNode, managers});
         } else {
             const childrenComp = children.map((child, idx) => {

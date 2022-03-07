@@ -44,9 +44,9 @@ export class ElementNodeManager {
     }
 
     private produceTick(elementNode: ElementNode) {
-        // if (this.ticks.length >= this.tickStoreCount) {
-        //     return;
-        // }
+        // 构建新的elementNode形式，
+        // todo 对比事件，进行dispatch
+        // todo dispatch通过后，方可放入ticks
         this.ticks.push({
             timestamp: new Date().getTime(),
             elementNode: elementNode
