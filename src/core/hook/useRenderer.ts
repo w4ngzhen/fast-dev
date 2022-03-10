@@ -75,6 +75,7 @@ export function useRenderer(props: RendererProps) {
     })
     return wrapperRenderer.renderRootElementNode(
         elementNodeManager.currentElementNode,
-        {eventManager, elementNodeManager}
+        {eventManager, elementNodeManager},
+        true
     );
 }

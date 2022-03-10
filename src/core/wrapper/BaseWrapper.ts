@@ -8,7 +8,6 @@ import {TableColumnWrapper} from "./impl/TableColumnWrapper";
 import {TabsWrapper} from "./impl/TabsWrapper";
 import {TabPaneWrapper} from "./impl/TabPaneWrapper";
 import {WrapperProps} from "./WrapperProps";
-import {Managers} from "../manager/Managers";
 
 export interface BaseWrapper {
     render(
@@ -31,3 +30,12 @@ export const TYPE_WRAPPER: {
     'tabs': new TabsWrapper(),
     'tabPane': new TabPaneWrapper()
 };
+
+export const ROOT_TYPE: string[] = [
+    'page',
+    'input',
+    'button',
+    'panel',
+    'table',
+    'tabs'
+]
