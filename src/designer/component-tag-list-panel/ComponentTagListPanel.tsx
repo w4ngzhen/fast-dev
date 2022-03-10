@@ -3,9 +3,9 @@ import './index.css'
 import * as _ from "lodash";
 import {Input} from "antd";
 import {SearchOutlined} from "@ant-design/icons";
-import ComponentTag from "../../../component-tag/ComponentTag";
 import ComponentTagListItem from "./ComponentTagListItem";
-import ComponentCategory from "../../../core/ComponentCategory";
+import ComponentTag from "../../component-tag/ComponentTag";
+import ComponentCategory from "../../core/ComponentCategory";
 
 interface ComponentTagListPanelProps {
     componentTags: ComponentTag[],

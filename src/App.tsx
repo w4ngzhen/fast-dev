@@ -1,14 +1,12 @@
 import React from 'react';
 import './styles/app.css';
-import {Example} from "./example/Example";
-
+import {Designer} from "./designer/Designer";
 
 function App() {
 
     return (
         <div className="App">
-            {/*<FastDevEditor/>*/}
-            <Example/>
+            <Designer/>
         </div>
     );
 }

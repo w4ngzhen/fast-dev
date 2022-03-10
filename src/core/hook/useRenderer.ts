@@ -14,11 +14,13 @@ import {EventManager} from "../manager/EventManager";
 export interface RendererProps {
     initElementNode: ElementNode;
     onElementNodeChange?: (eleNodeJson: string) => void;
+    elementNodeMapper?: (eleNode: ElementNode) => ElementNode;
+    componentMapper?: (comp: JSX.Element, type: string, path: string) => JSX.Element
 }
 
 export function useRenderer(props: RendererProps) {
 
-    const {initElementNode} = props;
+    const {initElementNode, elementNodeMapper, componentMapper} = props;
 
     const [elementNodeManager] = useState(new ElementNodeManager());
     const [eventManager] = useState(new EventManager(elementNodeManager));
@@ -72,10 +74,15 @@ export function useRenderer(props: RendererProps) {
             window.removeEventListener(TABS_KEY_CHANGE_EVENT, onTabsKeyChange)
             window.removeEventListener(INPUT_VALUE_CHANGE_EVENT, onInputValueChange)
         };
-    })
-    return wrapperRenderer.renderRootElementNode(
-        elementNodeManager.currentElementNode,
-        {eventManager, elementNodeManager},
-        true
-    );
+    });
+
+    return wrapperRenderer.renderRootElementNode({
+        rootEleNode: elementNodeManager.currentElementNode,
+        managers: {
+            eventManager,
+            elementNodeManager
+        },
+        elementNodeMapper,
+        componentMapper
+    });
 }
