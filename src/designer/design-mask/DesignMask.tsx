@@ -35,7 +35,7 @@ export const DesignMask: FC<DesignMaskProps> =
             },
             collect: monitor => {
                 return ({
-                isOver: monitor.isOver(),
+                isOver: monitor.isOver({shallow: true}),
             })}
         }));
 
