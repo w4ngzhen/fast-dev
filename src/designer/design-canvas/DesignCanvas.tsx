@@ -1,9 +1,10 @@
 import {useDrop} from "react-dnd";
-import React from "react";
+import React, {CSSProperties, useState} from "react";
 import {useRenderer} from "../../core/hook/useRenderer";
 import {ROOT_TYPE} from "../../core/wrapper/BaseWrapper";
 import {DesignMask} from "../design-mask/DesignMask";
 import {observer} from "mobx-react-lite";
+import _ from "lodash";
 
 export const DesignCanvas = observer(() => {
 
@@ -85,6 +86,9 @@ export const DesignCanvas = observer(() => {
         }]
     };
 
+    const [selectedPath, setSelectedPath] = useState('');
+    const [hoveredPath, setHoveredPath] = useState('');
+
     const rootComp = useRenderer({
         initElementNode,
         elementNodeMapper: eleNode => eleNode,
@@ -96,7 +100,12 @@ export const DesignCanvas = observer(() => {
                         key={path}
                         type={type}
                         path={path}
-                        selected={false}
+
+                        selected={_.isEqual(selectedPath, path)}
+                        onPathSelected={path => setSelectedPath(path)}
+
+                        hovered={_.isEqual(hoveredPath, path)}
+                        onPathHovered={path => setHoveredPath(path)}
                     >
                         {comp}
                     </DesignMask>
@@ -105,8 +114,6 @@ export const DesignCanvas = observer(() => {
             return comp;
         }
     });
-
-    console.log(rootComp)
 
     const [collectedProps, dropRef] = useDrop(() => ({
         accept: 'ComponentTagListItem',
@@ -117,12 +124,14 @@ export const DesignCanvas = observer(() => {
         })
     }));
 
-    const style = {
-        background: collectedProps.isOver ? 'pink' : 'white'
+    const style: CSSProperties = {
+        // background: collectedProps.isOver ? 'pink' : 'white',
+        overflow: 'auto'
     };
 
     return (
-        <div style={{width: '100%', height: '100%', ...style}} ref={dropRef}>
+        <div style={{width: '100%', height: '100%', ...style}}
+             ref={dropRef}>
             {rootComp}
         </div>
     );
