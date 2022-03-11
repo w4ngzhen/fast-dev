@@ -14,9 +14,7 @@ const ComponentTagListItem = (props: ComponentTagListItemProps) => {
 
     const [, dragRef] = useDrag(() => ({
         type: 'ComponentTagListItem',
-        item: {
-
-        }
+        item: {}
     }))
 
     // @ts-ignore todo
