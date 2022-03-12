@@ -2,8 +2,7 @@ import React, {FC, useRef, useState} from "react";
 import './design-mask.css';
 import cl from 'classnames';
 import {useDrag, useDrop} from "react-dnd";
-import HtmlUtils from "../../utils/HtmlUtils";
-import _ from "lodash";
+import {IconRemove} from "../../core/icon/IconRemove";
 
 export type DesignMaskProps = {
     type: string;
@@ -50,6 +49,13 @@ export const DesignMask: FC<DesignMaskProps> = (props) => {
     // 既是可被drop也可以drag
     dragRef(dropRef(refObject));
 
+    // 功能栏目
+    const tools = (
+        <span>
+
+        </span>
+    );
+
     const className = cl(
         'design-mask',
         {
@@ -73,6 +79,8 @@ export const DesignMask: FC<DesignMaskProps> = (props) => {
                 onPathHovered && onPathHovered(path);
             }}
         >
+            {selected && <IconRemove className='icon' onClick={() => {
+                                     }}/>}
             {props.children}
         </div>
     )

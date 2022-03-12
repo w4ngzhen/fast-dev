@@ -9,12 +9,6 @@ export interface ElementNode {
      */
     [props: string]: string | number | any
     /**
-     * Element 对应的事件属性
-     */
-    event?: {
-        [eventName: string]: string
-    };
-    /**
      * Element 的所有子元素
      */
     children?: ElementNode[]

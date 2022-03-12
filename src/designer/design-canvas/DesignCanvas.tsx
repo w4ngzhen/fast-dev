@@ -23,9 +23,7 @@ export const DesignCanvas = observer(() => {
                     children: [
                         {
                             type: 'button',
-                            event: {
-                                onClick: 'console.log(path, context)'
-                            }
+                            onClick: 'console.log(path, context)'
                         }
                     ]
                 },

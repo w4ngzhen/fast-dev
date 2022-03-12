@@ -18,9 +18,7 @@ export const Example = observer(() => {
                     children: [
                         {
                             type: 'button',
-                            event: {
-                                onClick: 'console.log(path, context)'
-                            }
+                            onClick: 'console.log(path, context)'
                         }
                     ]
                 },
@@ -59,7 +57,6 @@ export const Example = observer(() => {
                 },
                 {
                     type: 'table',
-                    ui: {},
                     dataSource: [
                         {key: '1', name: 'wz', age: 26},
                         {key: '2', name: 'zw', age: 63}

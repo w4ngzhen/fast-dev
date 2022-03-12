@@ -1,6 +1,7 @@
 .design-mask {
     min-height: 30px;
     padding: .5rem;
+    position: relative;
 }
 
 .outline-blue {
@@ -15,4 +16,16 @@
 
 .inline-block {
     display: inline-block
+}
+
+.icon {
+    position: absolute;
+    background-color: #244277;
+    z-index: 10;
+
+    width: 20px;
+    height: 20px;
+
+    right: 0;
+    top: 0;
 }

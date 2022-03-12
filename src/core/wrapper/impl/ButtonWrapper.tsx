@@ -11,9 +11,7 @@ export class ButtonWrapper implements BaseWrapper {
     render(wrapperProps: WrapperProps,
            children?: ReactNode[]): JSX.Element {
         const {elementNodeInfo, path, managers: {eventManager}} = wrapperProps;
-        const {text = 'button', tableIndex, event = {}} = elementNodeInfo;
-
-        const {onClick} = event;
+        const {text = 'button', tableIndex, onClick} = elementNodeInfo;
         let onClickFunc;
         if (!_.isEmpty(onClick)) {
             eventManager.register(path, 'onClick', onClick);
